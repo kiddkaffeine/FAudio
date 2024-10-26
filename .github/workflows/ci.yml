@@ -358,27 +358,23 @@ jobs:
         path: release/libFAudio.0.dylib
 
   ios-tvos-SDL3:
-    name: iOS SDL3
+    name: iOS/tvOS SDL3
     runs-on: macos-latest
     strategy:
       matrix:
         include:
           - platform: iOS
-            architectures: arm64
             sdk: iphoneos
-            package: FAudio-SDL3-ios
-          - platform: iOS
-            architectures: x86_64;arm64
-            sdk: iphonesimulator
-            package: FAudio-SDL3-ios-simulator
-          - platform: tvOS
             architectures: arm64
-            sdk: appletvos
-            package: FAudio-SDL3-tvos
-          - platform: tvOS
+          - platform: iOS
+            sdk: iphonesimulator
             architectures: x86_64;arm64
+          - platform: tvOS
+            sdk: appletvos
+            architectures: arm64
+          - platform: tvOS
             sdk: appletvsimulator
-            package: FAudio-SDL3-tvos-simulator
+            architectures: x86_64;arm64
     steps:
     - uses: actions/checkout@v4
       with:
@@ -413,5 +409,5 @@ jobs:
     - name: Archive build result
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.package }}
+        name: FAudio-SDL3-${{ matrix.sdk }}
         path: release/libFAudio.a
