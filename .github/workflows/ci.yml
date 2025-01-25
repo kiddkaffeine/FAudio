@@ -134,8 +134,18 @@ jobs:
       with:
         submodules: true
 
+    - name: Clone SDL2
+      run: git clone --depth 1 --branch release-$SDL2_VERSION https://github.com/libsdl-org/SDL.git
+
     - name: Install dependencies
-      run: brew install ninja sdl2
+      run: brew install ninja
+
+    - name: Build SDL2 (Debug)
+      run: |
+        cd SDL
+        cmake -B debug -G Ninja . -DCMAKE_BUILD_TYPE=Debug -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0
+        ninja -C debug
+        cd ..
 
     - name: CMake configure (Debug)
       run: cmake -B debug -G Ninja . -DCMAKE_BUILD_TYPE=Debug -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9
@@ -344,7 +354,6 @@ jobs:
       with:
         submodules: true
 
-    # This can be replaced by installing once brew ships SDL3
     - name: Clone SDL3
       run: git clone --depth 1 --branch release-$SDL3_VERSION https://github.com/libsdl-org/SDL.git
 
