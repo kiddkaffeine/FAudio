@@ -124,7 +124,7 @@ jobs:
           path: release-x64/FAudio.dll
 
   macos:
-    name: macOS (x86_64) (SDL2)
+    name: macOS (Universal) (SDL2)
     runs-on: macos-13
     env:
       CXXFLAGS: -I/usr/local/include/SDL2
@@ -148,13 +148,13 @@ jobs:
         cd ..
 
     - name: CMake configure (Debug)
-      run: cmake -B debug -G Ninja . -DCMAKE_BUILD_TYPE=Debug -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9
+      run: cmake -B debug -G Ninja . -DCMAKE_BUILD_TYPE=Debug -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 -DSDL2_DIR=${GITHUB_WORKSPACE}/SDL/debug
 
     - name: Build (Debug)
       run: ninja -C debug
 
     - name: CMake configure (Release)
-      run: cmake -B release -G Ninja . -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9
+      run: cmake -B release -G Ninja . -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 -DSDL2_DIR=${GITHUB_WORKSPACE}/SDL/debug
 
     - name: Build (Release)
       run: |
